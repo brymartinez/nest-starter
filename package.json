@@ -5,8 +5,10 @@
   "type": "commonjs",
   "scripts": {
     "build": "nest build --builder swc",
-    "auth:generate": "bun scripts/generate-better-auth-schema.ts",
-    "auth:migrate": "better-auth migrate --config src/auth/auth.ts --yes",
+    "auth:migrate": "bun scripts/migrate-database.ts",
+    "db:migrate": "bun scripts/migrate-database.ts",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
     "start": "nest start",
     "start:dev": "nest start --watch --builder swc",
     "start:debug": "nest start --debug --watch --builder swc",
@@ -27,7 +29,7 @@
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@better-auth/cli": "^1.4.21",
+    "@biomejs/biome": "^2.4.10",
     "@nestjs/cli": "^11.0.10",
     "@nestjs/testing": "11.1.6",
     "@swc/cli": "^0.7.8",

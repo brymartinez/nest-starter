@@ -7,6 +7,6 @@ import { UsersController } from './users.controller';
 
 @Module({
   imports: [AuthModule.forRoot({ auth, disableGlobalAuthGuard: true })],
-  controllers: [AppController, UsersController]
+  controllers: [AppController, UsersController],
 })
 export class AppModule {}

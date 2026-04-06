@@ -1,9 +1,8 @@
-import { Pool } from 'pg';
-import { Kysely, PostgresDialect } from 'kysely';
-
+import { sso } from '@better-auth/sso';
 import type { BetterAuthOptions } from 'better-auth';
 import { username } from 'better-auth/plugins';
-import { sso } from '@better-auth/sso';
+
+import { createDatabase } from '../database/database';
 
 type AuthEnv = NodeJS.ProcessEnv;
 
@@ -17,7 +16,10 @@ function requireEnv(env: AuthEnv, key: string): string {
   return value;
 }
 
-function requireGoogleEnv(env: AuthEnv): { clientId: string; clientSecret: string } {
+function requireGoogleEnv(env: AuthEnv): {
+  clientId: string;
+  clientSecret: string;
+} {
   const clientId = env.GOOGLE_CLIENT_ID;
   const clientSecret = env.GOOGLE_CLIENT_SECRET;
 
@@ -29,7 +31,6 @@ function requireGoogleEnv(env: AuthEnv): { clientId: string; clientSecret: strin
 }
 
 export function buildAuthConfig(env: AuthEnv): BetterAuthOptions {
-  const databaseUrl = requireEnv(env, 'DATABASE_URL');
   const baseURL = requireEnv(env, 'BETTER_AUTH_URL');
   const secret = env.BETTER_AUTH_SECRET ?? env.AUTH_SECRET;
 
@@ -42,20 +43,28 @@ export function buildAuthConfig(env: AuthEnv): BetterAuthOptions {
   return {
     baseURL,
     secret,
+    user: {
+      modelName: 'users',
+    },
+    session: {
+      modelName: 'sessions',
+    },
+    account: {
+      modelName: 'accounts',
+    },
+    verification: {
+      modelName: 'verifications',
+    },
     database: {
-      db: new Kysely({
-        dialect: new PostgresDialect({
-          pool: new Pool({ connectionString: databaseUrl })
-        })
-      }),
-      type: 'postgres'
+      db: createDatabase(env),
+      type: 'postgres',
     },
     emailAndPassword: {
-      enabled: true
+      enabled: true,
     },
     socialProviders: {
-      google
+      google,
     },
-    plugins: [username(), sso()]
+    plugins: [username(), sso({ modelName: 'ssoProviders' })],
   };
 }

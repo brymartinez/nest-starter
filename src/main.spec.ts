@@ -2,17 +2,17 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 const listen = vi.fn();
 const create = vi.fn(async () => ({
-  listen
+  listen,
 }));
 
 vi.mock('./auth/auth', () => ({
-  auth: {}
+  auth: {},
 }));
 
 vi.mock('@nestjs/core', () => ({
   NestFactory: {
-    create
-  }
+    create,
+  },
 }));
 
 describe('bootstrap', () => {
@@ -24,7 +24,7 @@ describe('bootstrap', () => {
     await import('./main');
 
     expect(create).toHaveBeenCalledWith(expect.anything(), {
-      bodyParser: false
+      bodyParser: false,
     });
   });
 });
