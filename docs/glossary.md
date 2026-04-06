@@ -1,0 +1,15 @@
+# Tooling
+- Database
+  - `postgres` along with `kysely` as the query builder and migration manager, no ORM is used
+- Auth
+  - `better-auth` using the `@thallesp/nestjs-better-auth`, defaulting to SSO and username/password authentication
+- Validation
+  - `zod` for transformation and validation
+- Testing
+  - `vitest`
+- Package Manager
+  - `bun`
+- Transpiler
+  - `swc`
+- Linter
+  - `biome`
