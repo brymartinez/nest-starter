@@ -1,10 +1,4 @@
-import {
-  type ColumnType,
-  type Generated,
-  Kysely,
-  PostgresDialect,
-} from 'kysely';
-import { Pool } from 'pg';
+import { type ColumnType, type Generated } from 'kysely';
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
@@ -65,22 +59,4 @@ export interface DatabaseSchema {
   };
 }
 
-type DatabaseEnv = NodeJS.ProcessEnv;
-
-function requireEnv(env: DatabaseEnv, key: string): string {
-  const value = env[key];
-
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${key}`);
-  }
-
-  return value;
-}
-
-export function createDatabase(env: DatabaseEnv): Kysely<DatabaseSchema> {
-  return new Kysely<DatabaseSchema>({
-    dialect: new PostgresDialect({
-      pool: new Pool({ connectionString: requireEnv(env, 'DATABASE_URL') }),
-    }),
-  });
-}
+export const DATABASE = Symbol('DATABASE');

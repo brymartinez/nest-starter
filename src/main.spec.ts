@@ -5,10 +5,6 @@ const create = vi.fn(async () => ({
   listen,
 }));
 
-vi.mock('./auth/auth', () => ({
-  auth: {},
-}));
-
 vi.mock('@nestjs/core', () => ({
   NestFactory: {
     create,
