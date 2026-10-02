@@ -60,8 +60,13 @@ Key areas:
 Before running the project, make sure you have:
 
 - [Bun](https://bun.sh/)
+- Node `^22.22.1 || >=24.0.0`
 - Docker and Docker Compose
 - A Google OAuth application if you want to use the included Google auth provider
+
+The Node floor comes from `@thallesp/nestjs-better-auth`, which declares `engines.node` of `>=22.22.1`. NestJS 12 itself runs on `^20.19.0 || ^22.12.0 || >=24.0.0`, so the auth dependency, not the framework, is what rules out Node 20 and the early 22.x patches.
+
+`nest new` and `nest generate` need a newer Node still: `@nestjs/schematics` declares `^22.22.3 || ^24.15.0 || >=26.0.0`. Running, building and testing the app do not.
 
 ## Environment variables
 

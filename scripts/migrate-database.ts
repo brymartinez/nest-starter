@@ -1,8 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import type { Kysely } from 'kysely';
 
-import type { DatabaseSchema } from '../src/database/database';
-import { DATABASE } from '../src/database/database.constants';
+import { DATABASE, type DatabaseSchema } from '../src/database/database';
 import { DatabaseMigrationModule } from '../src/database/database-migration.module';
 import { migrateToLatest } from '../src/database/migrate';
 
